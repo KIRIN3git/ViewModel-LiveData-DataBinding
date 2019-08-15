@@ -1,46 +1,27 @@
 package kirin3.jp.viewmodel_livedata_databinding
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
+import kirin3.jp.viewmodel_livedata_databinding.R
+import kirin3.jp.viewmodel_livedata_databinding.UserViewModel
+import kirin3.jp.viewmodel_livedata_databinding.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // 何度も使いまわされるインスタンスを発行
+        val viewModel: UserViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-        // アクティビティに属するカウンター
-        var counterA = 0
-
-        // 何度も使いまわされるインスタンスを作成
-        val viewModel: CountViewModel = ViewModelProviders.of(this).get(CountViewModel::class.java)
-
-        val text1 = findViewById(R.id.text1) as TextView
-        val text2 = findViewById(R.id.text2) as TextView
-
-        val button = findViewById(R.id.button) as Button
-        button.setOnClickListener {
-            counterA++
-            text1.setText(counterA.toString())
-
-            // ViewModelの監視対象のメンバ変数を+1
-            viewModel.counterB.value = viewModel.counterB.value!! + 1
-        }
-
-        // UI更新用のオブザーバーを作成
-        val countObserver = Observer<Int> { counter ->
-            // TextViewを更新
-            text2.text = counter.toString()
-        }
-
-        // LiveDataを観察し、このアクティビティをLifecycleOwnerおよびオブザーバーとして渡す
-        viewModel.counterB.observe(this, countObserver)
-
+        // Bindingオブジェクトを生成する
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        // 色々紐付ける
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
     }
 }
