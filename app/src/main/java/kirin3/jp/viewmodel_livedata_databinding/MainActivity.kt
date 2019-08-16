@@ -14,14 +14,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         // 何度も使いまわされるインスタンスを発行
         val viewModel: UserViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-        // Bindingオブジェクトを生成する
+        // Bindingオブジェクトを生成する（onCreateの外でもよい）
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        // 色々紐付ける
+        // viewModelを設定
         binding.viewModel = viewModel
+        // ライフサイクル所有者を設定
         binding.lifecycleOwner = this
-
     }
 }
