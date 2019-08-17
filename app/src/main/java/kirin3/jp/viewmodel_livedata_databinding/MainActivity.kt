@@ -12,12 +12,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // インスタンスを発行
+        // ViewModelのインスタンスを作成
         val viewModel: UserViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-        // Bindingオブジェクトを生成する（onCreateの外でもよい）
+        // DataBindingのインスタンスを作成（onCreateの外でもよい）
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        // viewModelを設定
+        // ViewModelのインスタンスを作成を設定
         binding.viewModel = viewModel
         // ライフサイクル所有者を設定
         binding.lifecycleOwner = this
